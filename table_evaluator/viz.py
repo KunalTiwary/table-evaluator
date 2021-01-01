@@ -40,7 +40,7 @@ def plot_var_cor(x: Union[pd.DataFrame, np.ndarray], ax=None, return_values: boo
         return corr
 
 
-def plot_correlation_difference(real: pd.DataFrame, fake: pd.DataFrame, plot_diff: bool = True, cat_cols: list = None, annot=False):
+def plot_correlation_difference(real: pd.DataFrame, fake: pd.DataFrame, plot_diff: bool = True, cat_cols: list = None, annot=True):
     """
     Plot the association matrices for the `real` dataframe, `fake` dataframe and plot the difference between them. Has support for continuous and Categorical
     (Male, Female) data types. All Object and Category dtypes are considered to be Categorical columns if `dis_cols` is not passed.
@@ -85,7 +85,7 @@ def plot_correlation_difference(real: pd.DataFrame, fake: pd.DataFrame, plot_dif
     plt.show()
 
 
-def plot_correlation_comparison(evaluators: List, annot=False):
+def plot_correlation_comparison(evaluators: List, annot=True):
     """
     Plot the correlation differences of multiple TableEvaluator objects.
 
@@ -99,12 +99,12 @@ def plot_correlation_comparison(evaluators: List, annot=False):
     flat_ax[nr_plots + 1].clear()
     fake_corr = []
     real_corr = associations(evaluators[0].real, nominal_columns=evaluators[0].categorical_columns, plot=False, theil_u=True,
-                             mark_columns=True, annot=False, cmap=cmap, cbar=False, ax=flat_ax[0])['corr']
+                             mark_columns=True, annot=True, cmap=cmap, cbar=False, ax=flat_ax[0])['corr']
     for i in range(1, nr_plots):
         cbar = True if i % (nr_plots - 1) == 0 else False
         fake_corr.append(
             associations(evaluators[i - 1].fake, nominal_columns=evaluators[0].categorical_columns, plot=False, theil_u=True,
-                         mark_columns=True, annot=False, cmap=cmap, cbar=cbar, ax=flat_ax[i])['corr']
+                         mark_columns=True, annot=True, cmap=cmap, cbar=cbar, ax=flat_ax[i])['corr']
         )
         if i % (nr_plots - 1) == 0:
             cbar = flat_ax[i].collections[0].colorbar
